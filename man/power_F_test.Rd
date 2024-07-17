@@ -2,7 +2,7 @@
 % Please edit documentation in R/F_test.R
 \name{power_F_test}
 \alias{power_F_test}
-\title{Power calculation for the Multivariate F-test (Hotelling's T2 test)}
+\title{Power Calculation for the Multivariate F-Test (Hotelling's T2 Test)}
 \usage{
 power_F_test(n0, n1 = n0, delta, K, alpha = 0.05)
 }
@@ -49,7 +49,7 @@ mean(p<=alpha)
 
 }
 \references{
-Hotelling, Harold. "The generalization of Student's ratio." (1931): 360-378.
+Hotelling, H. (1931). The Generalization of Student's Ratio. Ann. Math. Statist. 2(3): 360-378.
 }
 \seealso{
 \code{\link{F_test}}, \code{\link{n_F_test}}

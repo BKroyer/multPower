@@ -1,13 +1,15 @@
 Package: multPower
-Title: Multivariate Hypothesis Tests for Longitudinal Outcomes
+Title: Power and Sample Size Calculations for Multivariate Hypothesis Tests
 Version: 1.0
 Authors@R: 
     c(person("Robin", "Ristl", , "robin.ristl@meduniwien.ac.at", role = c("aut", "cre"),
            comment = c(ORCID = "https://orcid.org/0000-0002-4163-9236")),
 	person("Bettina", "Kroyer", ,"bettina.kroyer@meduniwien.ac.at", role = c("com", "ctb")))
 Imports: stats, mvtnorm
-Description: Provides global hypothesis tests for the comparison of mean vectors and assumed covariance 
-	matrix for two groups and blabla, also power and sample size. Should contain a few full sentences so that no NOTE is displayed.
+Description: Power and sample size are calculated for tests that compare two multivariate mean vectors.
+	Included tests are Hotelling's T2 test (multivariate F test), O'Briens OLS test (using the sum of individual test statistics) 
+	and the maximum t test (using the maximum of individual test statistics). Functions to simulate estimates from multivariate 
+	data and to perform the tests are included, such that the calculations can be checked by simulation.
 Date: 2024-07-16
 Author: Robin Ristl [aut, cre],
 	Bettina Kroyer [com, ctb]

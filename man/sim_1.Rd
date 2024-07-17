@@ -2,7 +2,7 @@
 % Please edit documentation in R/F_test.R
 \name{sim_1}
 \alias{sim_1}
-\title{Simulate mean and covariances}
+\title{Simulate Mean Vector and Covariance Estimates}
 \usage{
 sim_1(n0 = 100, n1 = 100, delta, K)
 }

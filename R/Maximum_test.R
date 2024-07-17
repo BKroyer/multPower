@@ -1,18 +1,23 @@
-#' @title Multivariate Maximum t-test for comparing two groups.
+#' @title Multivariate Maximum t-Test for Comparing Two Groups.
 #'
 #' @description Tests the multivariate null hypothesis of a zero mean difference between two multivariate (normal) distributions.
 #'
 #' @param est vector of estimated mean differences.
 #' @param V estimate for the covariance matrix.
-#' @param N number of independent observations. 
-#' @param sides defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2.
-#' 
+#' @param N number of independent observations.
+#' @param sides defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details.
 #'
-#' @details The function calculates Maximum t-test for the comparison of two independent mean vectors.
+#'
+#' @details The function calculates the maximum t-test for the comparison of two independent mean vectors.
 #'    It is assumed that \code{est} is the estimated vector of mean differences and \code{V} is the pooled sample
 #'    covariance matrix estimate and \code{N} is the total number of subjects from which these estimates where obtained.
-#'    The function is mainly included to allow for validation of the power and sample size 
-#'    calculations via simulation. See examples.
+#'    For the two-sided test,
+#'    the test statistic is the absolute value of the maximum of the elementary Wald test statistics. For the one-sided case as currently implemented,
+#'    the test statistics is the maximum of the elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
+#'    corresponding to a positive mean difference. P-values are calculated by assuming a multivariate t-distribution with N-2 degrees of freedom as joint
+#'    distribution of the elementary test statistics under the null hypothesis.
+#'    The function is mainly included to allow for validation of the power and sample size
+#'    calculations via simulation, see examples.
 #'
 #' @return A data frame with the test statistic, numerator and denominator degrees of freedom, the p-value, and an indicator if the p-value is one-sided or two-sided.
 #'
@@ -42,8 +47,8 @@
 #'  p[i]<-max_t_test(dat$est,dat$V,dat$N)$p
 #'}
 #'mean(p<=alpha)
-#' 
-#' 
+#'
+#'
 #'
 #' @export
 max_t_test<-function(est,V,N,sides=2) {
@@ -59,16 +64,15 @@ max_t_test<-function(est,V,N,sides=2) {
     stat<-rep(max(z),k)
     p<-as.numeric(1-pmvt(lower=rep(-Inf,k),upper=stat,df=df,corr=cov2cor(V)))
   }
-  
+
   data.frame(stat=max(z),df,p,sides)
 }
 
 
 #needed to find starting value in n_max_t_test
-n_max_z_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,interval=c(5,10000)) { 
-  #r ist n1/N
-  #also n1=r*N
-  powfun<-function(N) {	
+n_max_z_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,interval=c(5,10000)) {
+  #r=n1/N
+  powfun<-function(N) {
     n1<-r*N
     n0<-(1-r)*N
     pow<-power_max_z_test(n0,n1,delta,K,alpha,sides)$power
@@ -98,30 +102,40 @@ power_max_z_test<-function(n0,n1,delta,K,alpha=0.05,sides=2) {
     krit<-rep(Q,k)
     power<-1-pmvnorm(lower=-Inf,upper=krit,mean=ncp,corr=korrmat)
   }
-  
+
   data.frame(N,n0,n1,power)
 }
 
 
 
-#' @title Sample size calculation for the Maximum t-test
+#' @title Sample Size Calculation for the Maximum t-Test
 #'
-#' @description Calculates the sample size for Maximum t-test for the comparison of two independent mean vectors.
+#' @description Calculates the sample size for the maximum t-test for the comparison of two independent mean vectors.
 #'
 #' @param power the aimed for power of the test. The default is power=0.8.
 #' @param r fraction of subjects in group 1. The default value r=0.5 means equally sized groups.
 #' @param delta vector of assumed true mean differences.
 #' @param K assumed true covariance matrix (common to both groups).
 #' @param alpha significance level, default is 0.05.
-#' @param sides  defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2.
+#' @param sides  defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details.
 #' @param interval vector of length two with the interval to search for the sample size, passed to \code{\link[stats]{uniroot}}.
 #     The default is c(5,10000).
+#'
+#' @details For the two-sided test, the test statistic is the absolute value of the maximum of the elementary Wald test statistics. For the one-sided case as currently
+#'    implemented,
+#'    the test statistics is the maximum of the elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
+#'    corresponding to a positive mean difference. When performing power or sample size calculations for the one-sided test, the sign of the entries in \code{est}
+#'    must be set accordingly.
+#'    Calculated are performed using the package \pkg{mvtnorm} by assuming a central or non-central multivariate t-distribution with N-2 degrees of freedom as joint
+#'    distribution of the elementary test statistics under the null hypothesis and the alternative, respectively.
 #'
 #' @return A data frame with the total sample size \code{N}, the sample sizes in group 0 and group 1, \code{n0} and \code{n1}, the calculated actual power
 #'   (which should match closely with the aimed for power), and the indication if a one-sided or two-sided null-hypothesis is tested.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
 #' @references Hothorn, Torsten, Frank Bretz, and Peter Westfall. "Simultaneous inference in general parametric models." Biometrical Journal: Journal of Mathematical Methods in Biosciences 50.3 (2008): 346-363.
+#' Genz A, Bretz F (2009). _Computation of Multivariate Normal and t Probabilities_, series Lecture Notes in Statistics. Springer-Verlag, Heidelberg. ISBN 978-3-642-01688-2.
+
 #' @seealso \code{\link{max_t_test}}, \code{\link{power_max_t_test}}
 #'
 #' @examples
@@ -148,10 +162,9 @@ power_max_z_test<-function(n0,n1,delta,K,alpha=0.05,sides=2) {
 #'mean(p<=alpha)
 #'
 #' @export
-n_max_t_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,interval=c(5,10000)) { 
-  #r ist n1/N
-  #also n1=r*N
-  #Startwerte
+n_max_t_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,interval=c(5,10000)) {
+  #r=n1/N
+  #Startwert
   n_start<-n_max_z_test(power,r,delta,K,alpha,sides,interval)
   N<-ceiling(n_start$N)
   n1<-ceiling(r*N)
@@ -170,19 +183,29 @@ n_max_t_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,interval=c(5,1
 
 #' @title Power calculation for the Maximum t-test
 #'
-#' @description Calculates the power for Maximum t-test for the comparison of two independent mean vectors.
+#' @description Calculates the power for the maximum t-test for the comparison of two independent mean vectors.
 #'
 #' @param n0 sample size in group 0.
 #' @param n1 sample size in group 1. Defaults to \code{n0} if not specified otherwise.
 #' @param delta vector of assumed true mean differences.
 #' @param K assumed true covariance matrix (common to both groups).
 #' @param alpha significance level, default is 0.05.
-#' @param sides  defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2.
+#' @param sides  defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details
+#'
+#' @details For the two-sided test, the test statistic is the absolute value of the maximum of the elementary Wald test statistics. For the one-sided case as currently
+#'    implemented,
+#'    the test statistics is the maximum of the elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
+#'    corresponding to a positive mean difference. When performing power or sample size calculations for the one-sided test, the sign of the entries in \code{est}
+#'    must be set accordingly.
+#'    Calculated are performed using the package \pkg{mvtnorm} by assuming a central or non-central multivariate t-distribution with N-2 degrees of freedom as joint
+#'    distribution of the elementary test statistics under the null hypothesis and the alternative, respectively.
 #'
 #' @return A data frame with the input sample sizes in group 0 and group 1, \code{n0} and \code{n1}, the calculated power, and the indication if a one-sided or two-sided null-hypothesis is tested.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
 #' @references Hothorn, Torsten, Frank Bretz, and Peter Westfall. "Simultaneous inference in general parametric models." Biometrical Journal: Journal of Mathematical Methods in Biosciences 50.3 (2008): 346-363.
+#' Genz A, Bretz F (2009). _Computation of Multivariate Normal and t Probabilities_, series Lecture Notes in Statistics. Springer-Verlag, Heidelberg. ISBN 978-3-642-01688-2.
+#'
 #' @seealso \code{\link{max_t_test}}, \code{\link{n_max_t_test}}
 #'
 #' @examples
@@ -227,7 +250,7 @@ power_max_t_test<-function(n0,n1,delta,K,alpha=0.05,sides=2) {
     krit<-rep(Q,k)
     power<-1-pmvt(lower=-Inf,upper=krit,delta=ncp,corr=korrmat,df=df)
   }
-  
+
   data.frame(N,n0,n1,power,sides)
 }
 

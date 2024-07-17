@@ -2,7 +2,7 @@
 % Please edit documentation in R/F_test.R
 \name{n_F_test}
 \alias{n_F_test}
-\title{Sample size calculation for the Multivariate F-test (Hotelling's T2 test)}
+\title{Sample Size Calculation for the Multivariate F-Test (Hotelling's T2 Test)}
 \usage{
 n_F_test(power = 0.8, r = 0.5, delta, K, alpha = 0.05, interval = c(5, 10000))
 }
@@ -52,7 +52,7 @@ mean(p<=alpha)
 
 }
 \references{
-Hotelling, Harold. "The generalization of Student's ratio." (1931): 360-378.
+Hotelling, Harold. "The Generalization of Student's Ratio" (1931) Ann. Math. Statist. 2(3): 360-378.
 }
 \seealso{
 \code{\link{F_test}}, \code{\link{power_F_test}}

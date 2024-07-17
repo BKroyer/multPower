@@ -2,7 +2,7 @@
 % Please edit documentation in R/Summen_test.R
 \name{n_sum_t_test}
 \alias{n_sum_t_test}
-\title{Sample size calculation for the Sum test}
+\title{Sample Size Calculation for O'Brien's OLS Sum Test}
 \usage{
 n_sum_t_test(
   power = 0.8,
@@ -25,7 +25,7 @@ n_sum_t_test(
 
 \item{alpha}{significance level, default is 0.05.}
 
-\item{sides}{defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2.}
+\item{sides}{defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details.}
 
 \item{dftype}{type of degrees of freedom. Can be either "OBrien"  (df=N-2k) or "Logan" (df=0.5(N-2)(1-1/k^2)) with k=length(est). Default is dftype="OBrien".}
 }
@@ -34,7 +34,15 @@ A data frame with the total sample size \code{N}, the sample sizes in group 0 an
 (which should match closely with the aimed for power), and the indication if a one-sided or two-sided null-hypothesis is tested.
 }
 \description{
-Calculates the sample size for Sum test for the comparison of two independent mean vectors.
+Calculates the sample size for O'Brien's OLS sum test for the comparison of two independent mean vectors.
+}
+\details{
+For the two-sided test, the test statistic of this test is the absolute value of the standardized sum
+of elementary Wald test statistics. For the one-sided case as currently implemented,
+the test statistics is the standardized sum
+of elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
+corresponding to a positive sum of standardized mean differences. When performing power or sample size calculations for the one-sided test,
+the sign of the entries in \code{est} must be set accordingly.
 }
 \examples{
 library(mvtnorm)
@@ -62,6 +70,7 @@ mean(p<=alpha)
 }
 \references{
 O'Brien, Peter C. "Procedures for comparing samples with multiple endpoints." Biometrics (1984): 1079-1087.
+Logan, B. R., & Tamhane, A. C. (2004). On O'Brien's OLS and GLS tests for multiple endpoints. Lecture Notes-Monograph Series, 76-88.
 }
 \seealso{
 \code{\link{sum_t_test}}, \code{\link{power_sum_t_test}}

@@ -1,15 +1,20 @@
-#' @title Multivariate Sum test for comparing two groups.
+#' @title Multivariate Sum Test (O'Brien's Test) for Comparing Two Groups.
 #'
 #' @description Tests the multivariate null hypothesis of a zero mean difference between two multivariate (normal) distributions.
 #'
 #' @param est vector of estimated mean differences.
 #' @param V estimate for the covariance matrix.
-#' @param sides defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2.
+#' @param sides defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details.
 #' @param N number of independent observations. 
 #' @param dftype type of degrees of freedom. Can be either "OBrien"  (df=N-2k) or "Logan" (df=0.5(N-2)(1-1/k^2)) with k=length(est). Default is dftype="OBrien".
 #' 
 #'
-#' @details The function calculates Maximum t-test for the comparison of two independent mean vectors.
+#' @details Calculates O'Briens OLS test for the comparison of two independent mean vectors. 
+#'    For the two-sided test, the test statistic of this test is the absolute value of the standardized sum
+#'    of elementary Wald test statistics. For the one-sided case as currently implemented,
+#'    the test statistics is standardized sum
+#'    of elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
+#'    corresponding to a positive sum of standardized mean differences.
 #'    It is assumed that \code{est} is the estimated vector of mean differences and \code{V} is the pooled sample
 #'    covariance matrix estimate and \code{N} is the total number of subjects from which these estimates where obtained.
 #'    The function is mainly included to allow for validation of the power and sample size 
@@ -19,6 +24,8 @@
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
 #' @references O'Brien, Peter C. "Procedures for comparing samples with multiple endpoints." Biometrics (1984): 1079-1087.
+#' Logan, B. R., & Tamhane, A. C. (2004). On O'Brien's OLS and GLS tests for multiple endpoints. Lecture Notes-Monograph Series, 76-88.
+#'
 #' @seealso \code{\link{n_sum_t_test}}, \code{\link{power_sum_t_test}}
 #'
 #' @examples
@@ -46,7 +53,7 @@
 #' 
 #'
 #' @export
-sum_t_test<-function(est,V,N,dftype=c("OBrien","Logan")[1],sides=2) { #OBrien OLS
+sum_t_test<-function(est,V,N,dftype=c("OBrien","Logan")[1],sides=2) {
   SE<-sqrt(diag(V))
   z<-est/SE
   stat<-sum(z)/sqrt(sum(cov2cor(V)))
@@ -62,8 +69,7 @@ sum_t_test<-function(est,V,N,dftype=c("OBrien","Logan")[1],sides=2) { #OBrien OL
 
 #needed to find starting value in n_sum_t_test
 n_sum_z_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2) { 
-  #r ist n1/N
-  #also n1=r*N
+  #r=n1/N
   VC_1<-K*(1/(1-r)+1/r)
   SE1<-sqrt(diag(VC_1))
   korrmat<-cov2cor(VC_1)
@@ -78,23 +84,32 @@ n_sum_z_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2) {
 
 
 
-#' @title Sample size calculation for the Sum test
+#' @title Sample Size Calculation for O'Brien's OLS Sum Test
 #'
-#' @description Calculates the sample size for Sum test for the comparison of two independent mean vectors.
+#' @description Calculates the sample size for O'Brien's OLS sum test for the comparison of two independent mean vectors.
 #'
 #' @param power the aimed for power of the test. The default is power=0.8.
 #' @param r fraction of subjects in group 1. The default value r=0.5 means equally sized groups.
 #' @param delta vector of assumed true mean differences.
 #' @param K assumed true covariance matrix (common to both groups).
 #' @param alpha significance level, default is 0.05.
-#' @param sides  defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2.
+#' @param sides  defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details.
 #' @param dftype type of degrees of freedom. Can be either "OBrien"  (df=N-2k) or "Logan" (df=0.5(N-2)(1-1/k^2)) with k=length(est). Default is dftype="OBrien".
+#'
+#' @details  For the two-sided test, the test statistic of this test is the absolute value of the standardized sum
+#'    of elementary Wald test statistics. For the one-sided case as currently implemented,
+#'    the test statistics is the standardized sum
+#'    of elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
+#'    corresponding to a positive sum of standardized mean differences. When performing power or sample size calculations for the one-sided test,
+#'    the sign of the entries in \code{est} must be set accordingly.
 #'
 #' @return A data frame with the total sample size \code{N}, the sample sizes in group 0 and group 1, \code{n0} and \code{n1}, the calculated actual power
 #'   (which should match closely with the aimed for power), and the indication if a one-sided or two-sided null-hypothesis is tested.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
 #' @references O'Brien, Peter C. "Procedures for comparing samples with multiple endpoints." Biometrics (1984): 1079-1087.
+#' Logan, B. R., & Tamhane, A. C. (2004). On O'Brien's OLS and GLS tests for multiple endpoints. Lecture Notes-Monograph Series, 76-88.
+#'
 #' @seealso \code{\link{sum_t_test}}, \code{\link{power_sum_t_test}}
 #'
 #' @examples
@@ -140,22 +155,31 @@ n_sum_t_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,dftype=c("OBri
 
 
 
-#' @title Power calculation for the Sum test
+#' @title Power Calculation for O'Brien's OLS Sum Test 
 #'
-#' @description Calculates the power for Sum test for the comparison of two independent mean vectors.
+#' @description Calculates the power for O'Brien's OLS sum test for the comparison of two independent mean vectors.
 #'
 #' @param n0 sample size in group 0.
 #' @param n1 sample size in group 1. Defaults to \code{n0} if not specified otherwise.
 #' @param delta vector of assumed true mean differences.
 #' @param K assumed true covariance matrix (common to both groups).
 #' @param alpha significance level, default is 0.05.
-#' @param sides  defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2.
+#' @param sides  defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details.
 #' @param dftype type of degrees of freedom. Can be either "OBrien"  (df=N-2k) or "Logan" (df=0.5(N-2)(1-1/k^2)) with k=length(est). Default is dftype="OBrien".
+#'
+#' @details  For the two-sided test, the test statistic of this test is the absolute value of the standardized sum
+#'    of elementary Wald test statistics. For the one-sided case as currently implemented,
+#'    the test statistics is the standardized sum
+#'    of elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
+#'    corresponding to a positive sum of standardized mean differences. When performing power or sample size calculations for the one-sided test,
+#'    the sign of the entries in \code{est} must be set accordingly.
 #'
 #' @return A data frame with the input sample sizes in group 0 and group 1, \code{n0} and \code{n1}, the calculated power, and the indication if a one-sided or two-sided null-hypothesis is tested.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
 #' @references O'Brien, Peter C. "Procedures for comparing samples with multiple endpoints." Biometrics (1984): 1079-1087.
+#' Logan, B. R., & Tamhane, A. C. (2004). On O'Brien's OLS and GLS tests for multiple endpoints. Lecture Notes-Monograph Series, 76-88.
+#'
 #' @seealso \code{\link{sum_t_test}}, \code{\link{n_sum_t_test}}
 #'
 #' @examples

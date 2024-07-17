@@ -2,7 +2,7 @@
 #' @importFrom mvtnorm pmvnorm pmvt qmvnorm qmvt rmvnorm
 
 
-#' @title Simulate mean and covariances
+#' @title Simulate Mean Vector and Covariance Estimates
 #'
 #' @description Simulates the results of sampling from two independent normal distributions and estimating the mean difference and the pooled covariance matrix.
 #'   This is done by drawing mean vectors from multivariate normal distributions and covariance matrices from Wishart distributions and subsequently calculating the difference and
@@ -36,18 +36,24 @@ sim_1<-function(n0=100,n1=100,delta,K) {
 }
 
 
-#' @title Create covariance matrix of structure AR(1) (autoregressive)
+#' @title Create Covariance Matrix with Autoregressive Correlation Structure
 #'
-#' @description Create a covariance matrix of structure AR(1) based on given time points, correlation between adjacent time points and standard deviations of each time point.
+#' @description Creates a covariance matrix of structure AR(1) (autoregressive of order 1) based on given time points, correlation between adjacent time points and standard deviations of each time point.
 #'
-#' @param time vector of time points.
-#' @param sigma vector of the standard deviations for each time point.
-#' @param rho correlation coefficient between adjacent time points.
+#' @param time vector of time-points.
+#' @param sigma vector of the standard deviations assumed at the different time point.
+#' @param rho correlation between adjacent time-points of distance 1, see details.
 #'
-#' @return A covariance matrix of a autoregressive structure with the number of the time points as the dimensions built upon assumed correlation rho between adjacent time points, 
-#'        standard deviations sigma of every time point.
+#' @details The correlation between two time points \eqn{a} and \eqn{b} and AR(1) correlation parameter \eqn{\rho} is \eqn{\rho^{|a-b|}}.
+#'
+#' @return A \eqn{k} by \eqn{k} covariance matrix of AR(1) structure, with \eqn{k} being the number of the time-points.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
+#'
+#' @examples
+#' ARmat(1:3,rep(1,3),0.5)
+#' K<-ARmat(1:3,c(0.5,0.7,1),0.5)
+#' cov2cor(K)
 #'
 #' @export
 ARmat<-function(time,sigma,rho) {
@@ -63,18 +69,22 @@ ARmat<-function(time,sigma,rho) {
 }
 
 
-#' @title Create covariance matrix of structure exchangeable
+#' @title Create Covariance Matrix with Exchangeable Correlation Structure
 #'
-#' @description Create a covariance matrix of structure AR(1) based on given time points, correlation between adjacent time points and standard deviations of each time point.
+#' @description Creates a covariance matrix with a common correlation between all time-points. The variances may be heterogeneous.
 #'
 #' @param time vector of time points.
 #' @param sigma vector of the standard deviations for each time point.
 #' @param rho correlation coefficient between adjacent time points.
 #'
-#' @return A covariance matrix of an exchangeable structure with the number of the time points as the dimensions built upon assumed correlation rho between adjacent time points, 
-#'        standard deviations sigma of every time point.
+#' @return A \eqn{k} by \eqn{k} covariance matrix with exchangeable correlation structure, with \eqn{k} being the number of the time-points.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
+#'
+#' @examples
+#' EXmat(1:2,rep(1,2),0.5)
+#' K<-EXmat(1:4,c(0.75,0.75,1.5,1.5),0.5)
+#' cov2cor(K)
 #'
 #' @export
 EXmat<-function(time,sigma,rho) {
@@ -87,7 +97,7 @@ EXmat<-function(time,sigma,rho) {
 
 
 
-#' @title Multivariate F-test (Hotelling's T2 test) for comparing two groups.
+#' @title Multivariate F-test (Hotelling's T2 Test) for Comparing Two Groups.
 #'
 #' @description Tests the multivariate null hypothesis of a zero mean difference between two multivariate (normal) distributions.
 #'
@@ -105,7 +115,7 @@ EXmat<-function(time,sigma,rho) {
 #' @return A data frame with the test statistic, numerator and denominator degrees of freedom and the p-value.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
-#' @references Hotelling, Harold. "The generalization of Student's ratio." (1931): 360-378.
+#' @references Hotelling, H. (1931). The Generalization of Student's Ratio. Ann. Math. Statist. 2(3): 360-378.
 #' @seealso \code{\link{n_F_test}}, \code{\link{power_F_test}}
 #'
 #' @examples
@@ -144,7 +154,7 @@ F_test<-function(est,V,N) {
 }
 
 
-#' @title Sample size calculation for the Multivariate F-test (Hotelling's T2 test)
+#' @title Sample Size Calculation for the Multivariate F-Test (Hotelling's T2 Test)
 #'
 #' @description Calculates the sample size for Hotelling's T2 test for the comparison of two independent mean vectors.
 #'
@@ -160,7 +170,7 @@ F_test<-function(est,V,N) {
 #'   (which should match closely with the aimed for power).
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
-#' @references Hotelling, Harold. "The generalization of Student's ratio." (1931): 360-378.
+#' @references Hotelling, Harold. "The Generalization of Student's Ratio" (1931) Ann. Math. Statist. 2(3): 360-378.
 #' @seealso \code{\link{F_test}}, \code{\link{power_F_test}}
 #'
 #' @examples
@@ -189,8 +199,7 @@ F_test<-function(est,V,N) {
 #'
 #' @export
 n_F_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,interval=c(5,10000)) { 
-	#r ist n1/N
-	#also n1=r*N
+	#r=n1/N
 	powfun<-function(N) {	
 		n1<-r*N
 		n0<-(1-r)*N
@@ -206,7 +215,7 @@ n_F_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,interval=c(5,10000)) {
 
 
 
-#' @title Power calculation for the Multivariate F-test (Hotelling's T2 test)
+#' @title Power Calculation for the Multivariate F-Test (Hotelling's T2 Test)
 #'
 #' @description Calculates the power for Hotelling's T2 test for the comparison of two independent mean vectors.
 #'
@@ -219,7 +228,7 @@ n_F_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,interval=c(5,10000)) {
 #' @return A data frame with the input sample sizes in group 0 and group 1, \code{n0} and \code{n1}, and the calculated power.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
-#' @references Hotelling, Harold. "The generalization of Student's ratio." (1931): 360-378.
+#' @references Hotelling, H. (1931). The Generalization of Student's Ratio. Ann. Math. Statist. 2(3): 360-378.
 #' @seealso \code{\link{F_test}}, \code{\link{n_F_test}}
 #'
 #' @examples

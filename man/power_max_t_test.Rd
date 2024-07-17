@@ -17,13 +17,22 @@ power_max_t_test(n0, n1, delta, K, alpha = 0.05, sides = 2)
 
 \item{alpha}{significance level, default is 0.05.}
 
-\item{sides}{defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2.}
+\item{sides}{defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details}
 }
 \value{
 A data frame with the input sample sizes in group 0 and group 1, \code{n0} and \code{n1}, the calculated power, and the indication if a one-sided or two-sided null-hypothesis is tested.
 }
 \description{
-Calculates the power for Maximum t-test for the comparison of two independent mean vectors.
+Calculates the power for the maximum t-test for the comparison of two independent mean vectors.
+}
+\details{
+For the two-sided test, the test statistic is the absolute value of the maximum of the elementary Wald test statistics. For the one-sided case as currently
+implemented,
+the test statistics is the maximum of the elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
+corresponding to a positive mean difference. When performing power or sample size calculations for the one-sided test, the sign of the entries in \code{est}
+must be set accordingly.
+Calculated are performed using the package \pkg{mvtnorm} by assuming a central or non-central multivariate t-distribution with N-2 degrees of freedom as joint
+distribution of the elementary test statistics under the null hypothesis and the alternative, respectively.
 }
 \examples{
 library(mvtnorm)
@@ -51,6 +60,7 @@ mean(p<=alpha)
 }
 \references{
 Hothorn, Torsten, Frank Bretz, and Peter Westfall. "Simultaneous inference in general parametric models." Biometrical Journal: Journal of Mathematical Methods in Biosciences 50.3 (2008): 346-363.
+Genz A, Bretz F (2009). \emph{Computation of Multivariate Normal and t Probabilities}, series Lecture Notes in Statistics. Springer-Verlag, Heidelberg. ISBN 978-3-642-01688-2.
 }
 \seealso{
 \code{\link{max_t_test}}, \code{\link{n_max_t_test}}

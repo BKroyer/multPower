@@ -2,7 +2,7 @@
 % Please edit documentation in R/F_test.R
 \name{EXmat}
 \alias{EXmat}
-\title{Create covariance matrix of structure exchangeable}
+\title{Create Covariance Matrix with Exchangeable Correlation Structure}
 \usage{
 EXmat(time, sigma, rho)
 }
@@ -14,11 +14,16 @@ EXmat(time, sigma, rho)
 \item{rho}{correlation coefficient between adjacent time points.}
 }
 \value{
-A covariance matrix of an exchangeable structure with the number of the time points as the dimensions built upon assumed correlation rho between adjacent time points,
-standard deviations sigma of every time point.
+A \eqn{k} by \eqn{k} covariance matrix with exchangeable correlation structure, with \eqn{k} being the number of the time-points.
 }
 \description{
-Create a covariance matrix of structure AR(1) based on given time points, correlation between adjacent time points and standard deviations of each time point.
+Creates a covariance matrix with a common correlation between all time-points. The variances may be heterogeneous.
+}
+\examples{
+EXmat(1:2,rep(1,2),0.5)
+K<-EXmat(1:4,c(0.75,0.75,1.5,1.5),0.5)
+cov2cor(K)
+
 }
 \author{
 Robin Ristl \email{robin.ristl@meduniwien.ac.at}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/Summen_test.R
 \name{sum_t_test}
 \alias{sum_t_test}
-\title{Multivariate Sum test for comparing two groups.}
+\title{Multivariate Sum Test (O'Brien's Test) for Comparing Two Groups.}
 \usage{
 sum_t_test(est, V, N, dftype = c("OBrien", "Logan")[1], sides = 2)
 }
@@ -15,7 +15,7 @@ sum_t_test(est, V, N, dftype = c("OBrien", "Logan")[1], sides = 2)
 
 \item{dftype}{type of degrees of freedom. Can be either "OBrien"  (df=N-2k) or "Logan" (df=0.5(N-2)(1-1/k^2)) with k=length(est). Default is dftype="OBrien".}
 
-\item{sides}{defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2.}
+\item{sides}{defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details.}
 }
 \value{
 A data frame with the test statistic, numerator and denominator degrees of freedom, the p-value, and an indicator if the p-value is one-sided or two-sided.
@@ -24,7 +24,12 @@ A data frame with the test statistic, numerator and denominator degrees of freed
 Tests the multivariate null hypothesis of a zero mean difference between two multivariate (normal) distributions.
 }
 \details{
-The function calculates Maximum t-test for the comparison of two independent mean vectors.
+Calculates O'Briens OLS test for the comparison of two independent mean vectors.
+For the two-sided test, the test statistic of this test is the absolute value of the standardized sum
+of elementary Wald test statistics. For the one-sided case as currently implemented,
+the test statistics is standardized sum
+of elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
+corresponding to a positive sum of standardized mean differences.
 It is assumed that \code{est} is the estimated vector of mean differences and \code{V} is the pooled sample
 covariance matrix estimate and \code{N} is the total number of subjects from which these estimates where obtained.
 The function is mainly included to allow for validation of the power and sample size
@@ -57,6 +62,7 @@ mean(p<=alpha)
 }
 \references{
 O'Brien, Peter C. "Procedures for comparing samples with multiple endpoints." Biometrics (1984): 1079-1087.
+Logan, B. R., & Tamhane, A. C. (2004). On O'Brien's OLS and GLS tests for multiple endpoints. Lecture Notes-Monograph Series, 76-88.
 }
 \seealso{
 \code{\link{n_sum_t_test}}, \code{\link{power_sum_t_test}}

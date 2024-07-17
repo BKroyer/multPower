@@ -2,7 +2,7 @@
 % Please edit documentation in R/Maximum_test.R
 \name{max_t_test}
 \alias{max_t_test}
-\title{Multivariate Maximum t-test for comparing two groups.}
+\title{Multivariate Maximum t-Test for Comparing Two Groups.}
 \usage{
 max_t_test(est, V, N, sides = 2)
 }
@@ -13,7 +13,7 @@ max_t_test(est, V, N, sides = 2)
 
 \item{N}{number of independent observations.}
 
-\item{sides}{defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2.}
+\item{sides}{defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details.}
 }
 \value{
 A data frame with the test statistic, numerator and denominator degrees of freedom, the p-value, and an indicator if the p-value is one-sided or two-sided.
@@ -22,11 +22,16 @@ A data frame with the test statistic, numerator and denominator degrees of freed
 Tests the multivariate null hypothesis of a zero mean difference between two multivariate (normal) distributions.
 }
 \details{
-The function calculates Maximum t-test for the comparison of two independent mean vectors.
+The function calculates the maximum t-test for the comparison of two independent mean vectors.
 It is assumed that \code{est} is the estimated vector of mean differences and \code{V} is the pooled sample
 covariance matrix estimate and \code{N} is the total number of subjects from which these estimates where obtained.
+For the two-sided test,
+the test statistic is the absolute value of the maximum of the elementary Wald test statistics. For the one-sided case as currently implemented,
+the test statistics is the maximum of the elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
+corresponding to a positive mean difference. P-values are calculated by assuming a multivariate t-distribution with N-2 degrees of freedom as joint
+distribution of the elementary test statistics under the null hypothesis.
 The function is mainly included to allow for validation of the power and sample size
-calculations via simulation. See examples.
+calculations via simulation, see examples.
 }
 \examples{
 library(mvtnorm)
