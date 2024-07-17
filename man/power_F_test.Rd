@@ -49,7 +49,7 @@ mean(p<=alpha)
 
 }
 \references{
-Hotelling, H. (1931). The Generalization of Student's Ratio. Ann. Math. Statist. 2(3): 360-378.
+Hotelling, Harold. "The Generalization of Student's Ratio" Ann. Math. Statist. 2(3) (1931): 360-378.
 }
 \seealso{
 \code{\link{F_test}}, \code{\link{n_F_test}}

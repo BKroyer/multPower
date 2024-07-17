@@ -42,7 +42,7 @@ implemented,
 the test statistics is the maximum of the elementary Wald test statistics. Hence the one-sided test is sensitive for deviations from the null hypothesis
 corresponding to a positive mean difference. When performing power or sample size calculations for the one-sided test, the sign of the entries in \code{est}
 must be set accordingly.
-Calculated are performed using the package \pkg{mvtnorm} by assuming a central or non-central multivariate t-distribution with N-2 degrees of freedom as joint
+Calculated are performed using the package \href{https://cran.r-project.org/package=mvtnorm}{mvtnorm} by assuming a central or non-central multivariate t-distribution with N-2 degrees of freedom as joint
 distribution of the elementary test statistics under the null hypothesis and the alternative, respectively.
 }
 \examples{

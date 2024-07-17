@@ -69,7 +69,7 @@ mean(p<=alpha)
 }
 \references{
 O'Brien, Peter C. "Procedures for comparing samples with multiple endpoints." Biometrics (1984): 1079-1087.
-Logan, B. R., & Tamhane, A. C. (2004). On O'Brien's OLS and GLS tests for multiple endpoints. Lecture Notes-Monograph Series, 76-88.
+Logan, B. R., & Tamhane, A. C. "On O'Brien's OLS and GLS tests for multiple endpoints" Lecture Notes-Monograph Series (2004): 76-88.
 }
 \seealso{
 \code{\link{sum_t_test}}, \code{\link{n_sum_t_test}}

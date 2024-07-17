@@ -14,11 +14,11 @@
 #' @param delta vector of assumed true mean differences.
 #' @param K assumed true covariance matrix (common to both groups).
 #'
-#' @return A list with the simulated vector of mean differences (\code{est}), 
+#' @return A list with the simulated vector of mean differences (\code{est}),
 #'    covariance matrix (\code{V}), the input sample sizes \code{n0} and \code{n1} and the total sample size \code{N=n0+n1}.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
-#' @references Hotelling, Harold. "The generalization of Student's ratio." (1931): 360-378.
+#' @references Hotelling, Harold. "The Generalization of Student's Ratio" Ann. Math. Statist. 2(3) (1931): 360-378.
 #' @seealso \code{\link{n_F_test}}, \code{\link{power_F_test}}
 #'
 #' @export
@@ -103,19 +103,19 @@ EXmat<-function(time,sigma,rho) {
 #'
 #' @param est vector of estimated mean differences.
 #' @param V estimate for the covariance matrix.
-#' @param N number of independent observations. 
-#' 
+#' @param N number of independent observations.
+#'
 #'
 #' @details The function calculates Hotelling's T2 test for the comparison of two independent mean vectors.
 #'    It is assumed that \code{est} is the estimated vector of mean differences and \code{V} is the pooled sample
 #'    covariance matrix estimate and \code{N} is the total number of subjects from which these estimates where obtained.
-#'    The function is mainly included to allow for validation of the power and sample size 
+#'    The function is mainly included to allow for validation of the power and sample size
 #'    calculations via simulation. See examples.
 #'
 #' @return A data frame with the test statistic, numerator and denominator degrees of freedom and the p-value.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
-#' @references Hotelling, H. (1931). The Generalization of Student's Ratio. Ann. Math. Statist. 2(3): 360-378.
+#' @references Hotelling, Harold. "The Generalization of Student's Ratio" Ann. Math. Statist. 2(3) (1931): 360-378.
 #' @seealso \code{\link{n_F_test}}, \code{\link{power_F_test}}
 #'
 #' @examples
@@ -170,7 +170,7 @@ F_test<-function(est,V,N) {
 #'   (which should match closely with the aimed for power).
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
-#' @references Hotelling, Harold. "The Generalization of Student's Ratio" (1931) Ann. Math. Statist. 2(3): 360-378.
+#' @references Hotelling, Harold. "The Generalization of Student's Ratio" Ann. Math. Statist. 2(3) (1931): 360-378.
 #' @seealso \code{\link{F_test}}, \code{\link{power_F_test}}
 #'
 #' @examples
@@ -198,9 +198,9 @@ F_test<-function(est,V,N) {
 #' mean(p<=alpha)
 #'
 #' @export
-n_F_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,interval=c(5,10000)) { 
+n_F_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,interval=c(5,10000)) {
 	#r=n1/N
-	powfun<-function(N) {	
+	powfun<-function(N) {
 		n1<-r*N
 		n0<-(1-r)*N
 		pow<-power_F_test(n0,n1,delta,K,alpha)$power
@@ -228,7 +228,7 @@ n_F_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,interval=c(5,10000)) {
 #' @return A data frame with the input sample sizes in group 0 and group 1, \code{n0} and \code{n1}, and the calculated power.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
-#' @references Hotelling, H. (1931). The Generalization of Student's Ratio. Ann. Math. Statist. 2(3): 360-378.
+#' @references Hotelling, Harold. "The Generalization of Student's Ratio" Ann. Math. Statist. 2(3) (1931): 360-378.
 #' @seealso \code{\link{F_test}}, \code{\link{n_F_test}}
 #'
 #' @examples
@@ -263,8 +263,8 @@ power_F_test<-function(n0,n1=n0,delta,K,alpha=0.05) {
 	N<-n0+n1
 	df1<-k
 	df2<-N-1-k
-	Q<-qf(1-alpha,df1=df1,df2=df2)	
-	power<-1-pf(Q,df1=df1,df2=df2,ncp=ncp)	
+	Q<-qf(1-alpha,df1=df1,df2=df2)
+	power<-1-pf(Q,df1=df1,df2=df2,ncp=ncp)
 	data.frame(n0,n1,power)
 }
 

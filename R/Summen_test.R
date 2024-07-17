@@ -5,11 +5,11 @@
 #' @param est vector of estimated mean differences.
 #' @param V estimate for the covariance matrix.
 #' @param sides defines whether the one-sided (sides=1) or the two-sided (sides=2) p-value should be calculated, defaults to sides=2. See details.
-#' @param N number of independent observations. 
+#' @param N number of independent observations.
 #' @param dftype type of degrees of freedom. Can be either "OBrien"  (df=N-2k) or "Logan" (df=0.5(N-2)(1-1/k^2)) with k=length(est). Default is dftype="OBrien".
-#' 
 #'
-#' @details Calculates O'Briens OLS test for the comparison of two independent mean vectors. 
+#'
+#' @details Calculates O'Briens OLS test for the comparison of two independent mean vectors.
 #'    For the two-sided test, the test statistic of this test is the absolute value of the standardized sum
 #'    of elementary Wald test statistics. For the one-sided case as currently implemented,
 #'    the test statistics is standardized sum
@@ -17,14 +17,14 @@
 #'    corresponding to a positive sum of standardized mean differences.
 #'    It is assumed that \code{est} is the estimated vector of mean differences and \code{V} is the pooled sample
 #'    covariance matrix estimate and \code{N} is the total number of subjects from which these estimates where obtained.
-#'    The function is mainly included to allow for validation of the power and sample size 
+#'    The function is mainly included to allow for validation of the power and sample size
 #'    calculations via simulation. See examples.
 #'
 #' @return A data frame with the test statistic, numerator and denominator degrees of freedom, the p-value, and an indicator if the p-value is one-sided or two-sided.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
-#' @references O'Brien, Peter C. "Procedures for comparing samples with multiple endpoints." Biometrics (1984): 1079-1087.
-#' Logan, B. R., & Tamhane, A. C. (2004). On O'Brien's OLS and GLS tests for multiple endpoints. Lecture Notes-Monograph Series, 76-88.
+#' @references O'Brien, Peter C. "Procedures for comparing samples with multiple endpoints" Biometrics (1984): 1079-1087.
+#' Logan, B. R., & Tamhane, A. C. "On O'Brien's OLS and GLS tests for multiple endpoints" Lecture Notes-Monograph Series (2004): 76-88.
 #'
 #' @seealso \code{\link{n_sum_t_test}}, \code{\link{power_sum_t_test}}
 #'
@@ -50,7 +50,7 @@
 #'  p[i]<-sum_t_test(dat$est,dat$V,dat$N)$p
 #'}
 #'mean(p<=alpha)
-#' 
+#'
 #'
 #' @export
 sum_t_test<-function(est,V,N,dftype=c("OBrien","Logan")[1],sides=2) {
@@ -68,7 +68,7 @@ sum_t_test<-function(est,V,N,dftype=c("OBrien","Logan")[1],sides=2) {
 
 
 #needed to find starting value in n_sum_t_test
-n_sum_z_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2) { 
+n_sum_z_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2) {
   #r=n1/N
   VC_1<-K*(1/(1-r)+1/r)
   SE1<-sqrt(diag(VC_1))
@@ -108,7 +108,7 @@ n_sum_z_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2) {
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
 #' @references O'Brien, Peter C. "Procedures for comparing samples with multiple endpoints." Biometrics (1984): 1079-1087.
-#' Logan, B. R., & Tamhane, A. C. (2004). On O'Brien's OLS and GLS tests for multiple endpoints. Lecture Notes-Monograph Series, 76-88.
+#' Logan, B. R., & Tamhane, A. C. "On O'Brien's OLS and GLS tests for multiple endpoints" Lecture Notes-Monograph Series (2004): 76-88.
 #'
 #' @seealso \code{\link{sum_t_test}}, \code{\link{power_sum_t_test}}
 #'
@@ -136,7 +136,7 @@ n_sum_z_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2) {
 #'mean(p<=alpha)
 #'
 #' @export
-n_sum_t_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,dftype=c("OBrien","Logan")[1]) { 
+n_sum_t_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,dftype=c("OBrien","Logan")[1]) {
   #r ist n1/N
   #also n1=r*N
   n_start<-n_sum_z_test(power,r,delta,K,alpha,sides)
@@ -155,7 +155,7 @@ n_sum_t_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,dftype=c("OBri
 
 
 
-#' @title Power Calculation for O'Brien's OLS Sum Test 
+#' @title Power Calculation for O'Brien's OLS Sum Test
 #'
 #' @description Calculates the power for O'Brien's OLS sum test for the comparison of two independent mean vectors.
 #'
@@ -178,7 +178,7 @@ n_sum_t_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,dftype=c("OBri
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
 #' @references O'Brien, Peter C. "Procedures for comparing samples with multiple endpoints." Biometrics (1984): 1079-1087.
-#' Logan, B. R., & Tamhane, A. C. (2004). On O'Brien's OLS and GLS tests for multiple endpoints. Lecture Notes-Monograph Series, 76-88.
+#' Logan, B. R., & Tamhane, A. C. "On O'Brien's OLS and GLS tests for multiple endpoints" Lecture Notes-Monograph Series (2004): 76-88.
 #'
 #' @seealso \code{\link{sum_t_test}}, \code{\link{n_sum_t_test}}
 #'
@@ -216,7 +216,7 @@ power_sum_t_test<-function(n0,n1,delta,K,alpha=0.05,sides=2,dftype=c("OBrien","L
   N<-n0+n1
   if(dftype=="OBrien") df=N-2*k
   if(dftype=="Logan") df=0.5*(N-2)*(1-1/k^2)
-  
+
   if(sides==2) {
     krit<-qt(1-alpha/2,df=df)
     power<-1-pt(krit,ncp=ncp,df=df)
@@ -224,9 +224,9 @@ power_sum_t_test<-function(n0,n1,delta,K,alpha=0.05,sides=2,dftype=c("OBrien","L
   if(sides==1) {
     krit<-qt(1-alpha,df=df)
     power<-1-pt(krit,ncp=ncp,df=df)
-    
+
   }
-  
+
   data.frame(n0,n1,power,sides)
 }
 

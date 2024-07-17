@@ -26,7 +26,7 @@ the pooled covariance matrix estimate. The function is intended to support simul
 \code{\link{n_F_test}} and \code{\link{power_F_test}}.
 }
 \references{
-Hotelling, Harold. "The generalization of Student's ratio." (1931): 360-378.
+Hotelling, Harold. "The Generalization of Student's Ratio" Ann. Math. Statist. 2(3) (1931): 360-378.
 }
 \seealso{
 \code{\link{n_F_test}}, \code{\link{power_F_test}}
