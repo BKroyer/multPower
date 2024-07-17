@@ -1,0 +1,20 @@
+Package: multPower
+Title: Multivariate Hypothesis Tests for Longitudinal Outcomes
+Version: 1.0
+Authors@R: 
+    c(person("Robin", "Ristl", , "robin.ristl@meduniwien.ac.at", role = c("aut", "cre"),
+           comment = c(ORCID = "https://orcid.org/0000-0002-4163-9236")),
+	person("Bettina", "Kroyer", ,"bettina.kroyer@meduniwien.ac.at", role = c("com", "ctb")))
+Imports: stats, mvtnorm
+Description: Provides global hypothesis tests for the comparison of mean vectors and assumed covariance 
+	matrix for two groups and blabla, also power and sample size. Should contain a few full sentences so that no NOTE is displayed.
+Date: 2024-07-16
+Author: Robin Ristl [aut, cre],
+	Bettina Kroyer [com, ctb]
+Maintainer: Robin Ristl <robin.ristl@meduniwien.ac.at>
+Depends: R (>= 3.5.0)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
