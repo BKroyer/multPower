@@ -181,7 +181,7 @@ n_max_t_test<-function(power=0.8,r=0.5,delta,K,alpha=0.05,sides=2,interval=c(5,1
 
 
 
-#' @title Power calculation for the Maximum t-test
+#' @title Power Calculation for the Maximum t-test
 #'
 #' @description Calculates the power for the maximum t-test for the comparison of two independent mean vectors.
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/Maximum_test.R
 \name{power_max_t_test}
 \alias{power_max_t_test}
-\title{Power calculation for the Maximum t-test}
+\title{Power Calculation for the Maximum t-test}
 \usage{
 power_max_t_test(n0, n1, delta, K, alpha = 0.05, sides = 2)
 }
