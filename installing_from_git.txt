@@ -1,0 +1,9 @@
+#install.packages("remotes")
+library(remotes)
+remotes::install_github("BKroyer/multPower")
+
+library(multPower)
+
+?sim_1
+K = ARmat(c(1,2,3), c(0.2,0.3,0.2), 0.6)
+K
