@@ -159,7 +159,7 @@ F_test<-function(est,V,N) {
 #' @description Calculates the sample size for Hotelling's T2 test for the comparison of two independent mean vectors.
 #'
 #' @param power the aimed for power of the test. The default is power=0.8.
-#' @param r fraction of subjects in group 1. The default value r=0.5 means equally sized groups.
+#' @param r fraction of subjects in group 1 (\code{n1}). The default value r=0.5 means equally sized groups. For example, a r of 1/3 would mean an allocation of 2:1 for n0:n1.
 #' @param delta vector of assumed true mean differences.
 #' @param K assumed true covariance matrix (common to both groups).
 #' @param alpha significance level, default is 0.05.
@@ -167,7 +167,7 @@ F_test<-function(est,V,N) {
 #     The default is c(5,10000).
 #'
 #' @return A data frame with the total sample size \code{N}, the sample sizes in group 0 and group 1, \code{n0} and \code{n1}, the calculated actual power
-#'   (which should match closely with the aimed for power).
+#'   (which should match closely with the aimed for power), and the indication if a one-sided or two-sided null-hypothesis was assumed.
 #'
 #' @author Robin Ristl \email{robin.ristl@@meduniwien.ac.at}
 #' @references Hotelling, Harold. "The Generalization of Student's Ratio" Ann. Math. Statist. 2(3) (1931): 360-378.

@@ -9,7 +9,7 @@ n_F_test(power = 0.8, r = 0.5, delta, K, alpha = 0.05, interval = c(5, 10000))
 \arguments{
 \item{power}{the aimed for power of the test. The default is power=0.8.}
 
-\item{r}{fraction of subjects in group 1. The default value r=0.5 means equally sized groups.}
+\item{r}{fraction of subjects in group 1 (\code{n1}). The default value r=0.5 means equally sized groups. For example, a r of 1/3 would mean an allocation of 2:1 for n0:n1.}
 
 \item{delta}{vector of assumed true mean differences.}
 
@@ -21,7 +21,7 @@ n_F_test(power = 0.8, r = 0.5, delta, K, alpha = 0.05, interval = c(5, 10000))
 }
 \value{
 A data frame with the total sample size \code{N}, the sample sizes in group 0 and group 1, \code{n0} and \code{n1}, the calculated actual power
-(which should match closely with the aimed for power).
+(which should match closely with the aimed for power), and the indication if a one-sided or two-sided null-hypothesis was assumed.
 }
 \description{
 Calculates the sample size for Hotelling's T2 test for the comparison of two independent mean vectors.
